@@ -1,0 +1,6 @@
+python3
+requests
+random
+datetime
+colored
+sys (not sure if already comes in py3)
