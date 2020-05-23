@@ -95,6 +95,32 @@ class Privacy():
             sys.exit()
 
         responseJSON = response.json()
+         
+        if 'one-time' in responseJSON['message']:
+
+            userToken = responseJSON['userToken']
+
+            headers = {
+                'Connection': 'keep-alive',
+                'Accept': 'application/json, text/plain, */*',
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36',
+                'Content-Type': 'application/json;charset=UTF-8',
+                'Origin': 'https://privacy.com',
+                'Sec-Fetch-Site': 'same-origin',
+                'Sec-Fetch-Mode': 'cors',
+                'Sec-Fetch-Dest': 'empty',
+                'Referer': 'https://privacy.com/tfa',
+                'Accept-Language': 'en-US,en;q=0.9',
+            }
+
+            tfa_code = str(input('2FA Code: '))
+
+            data = '{"code":"'+tfa_code+'","userToken":"'+userToken+'","rememberDevice":false}'
+
+            response = self.s.post('https://privacy.com/auth/local/code', headers=headers, cookies=cookies, data=data)
+
+            responseJSON = response.json()
+
 
         return responseJSON['token']
 
